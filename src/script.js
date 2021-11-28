@@ -24,7 +24,7 @@ const scene = new THREE.Scene();
 
 /*TEXTURES*/
 const textureLoader = new THREE.TextureLoader();
-const matcapTexture = textureLoader.load("textures/matcaps/8.png");
+const matcapTexture = textureLoader.load("textures/matcaps/2.png");
 
 /*MESH*/
 
@@ -45,11 +45,28 @@ fontLoader.load("fonts/helvetiker_regular.typeface.json", (font) => {
   }); /*IL PRIMO ARGOMENTO E' IL TESTO, IL SECONDO LE PROPRIETA'*/
   /*OGNI MESH CHE VIENE VISUALIZZATA POSSIEDE UN CONTNITORE (SFRICO O CUBO) CHE LO CONTIENE CON .CENTER L'ASSE VERRA' INSERITA AL CENTRO DEL CONTENITORE*/
   textGeometry.center();
-  const textMaterial = new MeshMatcapMaterial({
+  const material = new MeshMatcapMaterial({
     /*wireframe: true*/
     matcap: matcapTexture,
   });
-  const text = new Mesh(textGeometry, textMaterial);
+  const text = new Mesh(textGeometry, material);
+  /*Donuts*/
+  const donutGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 30);
+  for (let i = 0; i < 200; i++) {
+    const donut = new THREE.Mesh(
+      donutGeometry,
+      material
+    ); /*sto usando lo stesso materiale per testo e donuts*/
+    donut.position.x = (Math.random() - 0.5) * 10;
+    donut.position.y = (Math.random() - 0.5) * 10;
+    donut.position.z = (Math.random() - 0.5) * 10;
+    donut.rotation.x = Math.random() * Math.PI;
+    donut.rotation.y = Math.random() * Math.PI;
+    const randomScale = Math.random();
+    donut.scale.set(randomScale, randomScale, randomScale);
+
+    scene.add(donut);
+  }
   scene.add(text);
 }); /*IL SECONDO ARGOMENTO E' UNA FUNZIONE ONLOAD IL PRIMO E' IL PATH DEL FONT*/
 /*FONT DEBUG*/
@@ -76,8 +93,8 @@ window.addEventListener("resize", () => {
 });
 
 /*AXIS HELPER*/
-const axisHelper = new THREE.AxisHelper();
-scene.add(axisHelper);
+// const axisHelper = new THREE.AxisHelper();
+// scene.add(axisHelper);
 
 /*RENDERER*/
 const canvas = document.querySelector("canvas.webgl");
