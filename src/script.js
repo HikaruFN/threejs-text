@@ -9,7 +9,12 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 /*IMPORT FONT*/
 // import typefaceFont from "three/examples/fonts/helvetiker_regular.typeface.json";
 import font from "../static/fonts/helvetiker_regular.typeface.json"; /*CARICATO DA STATIC*/
-import { Mesh, MeshBasicMaterial, MeshStandardMaterial } from "three";
+import {
+  Mesh,
+  MeshBasicMaterial,
+  MeshMatcapMaterial,
+  MeshStandardMaterial,
+} from "three";
 
 /*DAT.GUI*/
 const gui = new dat.GUI();
@@ -40,9 +45,9 @@ fontLoader.load("fonts/helvetiker_regular.typeface.json", (font) => {
   }); /*IL PRIMO ARGOMENTO E' IL TESTO, IL SECONDO LE PROPRIETA'*/
   /*OGNI MESH CHE VIENE VISUALIZZATA POSSIEDE UN CONTNITORE (SFRICO O CUBO) CHE LO CONTIENE CON .CENTER L'ASSE VERRA' INSERITA AL CENTRO DEL CONTENITORE*/
   textGeometry.center();
-  const textMaterial = new MeshBasicMaterial({
+  const textMaterial = new MeshMatcapMaterial({
     /*wireframe: true*/
-    map: matcapTexture,
+    matcap: matcapTexture,
   });
   const text = new Mesh(textGeometry, textMaterial);
   scene.add(text);
